@@ -63,7 +63,7 @@ public class Magic {
 
         for (Field declaredField : clazz.getDeclaredFields()) {
 
-            fieldText.append("\tprivate final ");
+//            fieldText.append("\tprivate final ");
 
             //Id field type controller
             if( "id".equals(declaredField.getName()) )
@@ -173,29 +173,29 @@ public class Magic {
                     "    private "+ entityName +"Service "+ lowerCaseEntityName +"Services;\n" +
                     "\n" +
                     "    @GetMapping(\"{id}\")\n" +
-                    "    public Mono<"+ entityName +"Dto> get"+ entityName +"ById( @PathVariable String id ) {\n" +
-                    "        return "+ lowerCaseEntityName +"Services.get"+ entityName +"ById( id );\n" +
+                    "    public Mono<"+ entityName +"Dto> getById( @PathVariable String id ) {\n" +
+                    "        return "+ lowerCaseEntityName +"Services.getById( id );\n" +
                     "    }\n" +
                     "\n" +
                     "    @GetMapping(\"getAll\")\n" +
-                    "    public Flux<"+ entityName +"Dto> getAll"+ entityName +"(){\n" +
+                    "    public Flux<"+ entityName +"Dto> getAll(){\n" +
                     "\n" +
-                    "        return "+ lowerCaseEntityName +"Services.getAll"+ entityName +"s();\n" +
+                    "        return "+ lowerCaseEntityName +"Services.getAll();\n" +
                     "    }\n" +
                     "\n" +
                     "    @PostMapping( consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE } )\n" +
                     "    public Mono<"+ entityName +"Dto> create"+ entityName +"(@RequestBody @NonNull "+ entityName +"Dto "+ lowerCaseEntityName +"Dto) {\n" +
-                    "        return "+ lowerCaseEntityName +"Services.create"+ entityName +"( "+ lowerCaseEntityName +"Dto );\n" +
+                    "        return "+ lowerCaseEntityName +"Services.create( "+ lowerCaseEntityName +"Dto );\n" +
                     "    }\n" +
                     "\n" +
                     "    @PutMapping( consumes = { MediaType.APPLICATION_JSON_VALUE }, produces = { MediaType.APPLICATION_JSON_VALUE } )\n" +
-                    "    public Mono<"+entityName+"Dto> update"+entityName+"(@RequestBody @NonNull "+entityName+"Dto "+ lowerCaseEntityName +"Dto) {\n" +
-                    "        return "+ lowerCaseEntityName +"Services.update"+entityName+"( "+ lowerCaseEntityName +"Dto );\n" +
+                    "    public Mono<"+entityName+"Dto> update(@RequestBody @NonNull "+entityName+"Dto "+ lowerCaseEntityName +"Dto) {\n" +
+                    "        return "+ lowerCaseEntityName +"Services.update( "+ lowerCaseEntityName +"Dto );\n" +
                     "    }\n" +
                     "\n" +
                     "    @DeleteMapping(\"{id}\")\n" +
-                    "    public Mono<Void> delete"+entityName+"ById( @PathVariable String id ) {\n" +
-                    "        return "+ lowerCaseEntityName +"Services.delete"+entityName+"ById( id );\n" +
+                    "    public Mono<Void> deleteById( @PathVariable String id ) {\n" +
+                    "        return "+ lowerCaseEntityName +"Services.deleteById( id );\n" +
                     "    }\n" +
                     "\n" +
                     "}");
@@ -263,21 +263,21 @@ public class Magic {
 
             template.append(
                     "import lombok.AllArgsConstructor;\n" +
-                            "import lombok.Builder;\n" +
-                            "import lombok.Value;\n" +
-                            "\n" +
-                            "@Value\n" +
-                            "@Builder\n" +
-                            "@AllArgsConstructor\n" +
-                            "public class "+ entityName +"Dto {\n" +
-                            "\n" );
-
-            // add fields
-            template.append( fields );
-
-            template.append(
+                    "import lombok.Builder;\n" +
+                    "import lombok.Value;\n" +
                     "\n" +
-                            "}"
+                    "@Value\n" +
+                    "@Builder\n" +
+                    "@AllArgsConstructor\n" +
+                    "public class "+ entityName +"Dto {\n" +
+                    "\n" );
+
+                        // add fields
+                        template.append( fields );
+
+                        template.append(
+                        "\n" +
+                    "}"
             );
 
             return template.toString();
@@ -340,11 +340,11 @@ public class Magic {
                     "\n" +
                     "public interface "+ entityName +"Service {\n" +
                     "\n" +
-                    "    Mono<"+ entityName +"Dto> create"+ entityName +"( "+ entityName +"Dto "+lowerCaseEntityName+"Dto );\n" +
-                    "    Mono<"+ entityName +"Dto> update"+ entityName +"( "+ entityName +"Dto "+lowerCaseEntityName+"Dto );\n" +
-                    "    Mono<Void> delete"+ entityName +"ById( String id );\n" +
-                    "    Mono<"+ entityName +"Dto> get"+ entityName +"ById( String id );\n" +
-                    "    Flux<"+ entityName +"Dto> getAll"+ entityName +"s();\n" +
+                    "    Mono<"+ entityName +"Dto> create( "+ entityName +"Dto "+lowerCaseEntityName+"Dto );\n" +
+                    "    Mono<"+ entityName +"Dto> update( "+ entityName +"Dto "+lowerCaseEntityName+"Dto );\n" +
+                    "    Mono<Void> deleteById( String id );\n" +
+                    "    Mono<"+ entityName +"Dto> getById( String id );\n" +
+                    "    Flux<"+ entityName +"Dto> getAll();\n" +
                     "\n" +
                     "}");
 
@@ -381,35 +381,35 @@ public class Magic {
                     "    private "+ entityName +"Repository "+ lowerCaseEntityName +"Repository;\n" +
                     "\n" +
                     "    @Override\n" +
-                    "    public Mono<"+ entityName +"Dto> create"+ entityName +"( "+ entityName +"Dto "+ lowerCaseEntityName +"Dto) {\n" +
+                    "    public Mono<"+ entityName +"Dto> create( "+ entityName +"Dto "+ lowerCaseEntityName +"Dto) {\n" +
                     "\n" +
                     "        return "+ lowerCaseEntityName +"Repository.insert( "+ mapperFieldName +"."+ lowerCaseEntityName +"DtoTo"+ entityName +"( "+ lowerCaseEntityName +"Dto ) )\n" +
                     "                .map( "+ mapperFieldName +"::"+ lowerCaseEntityName +"To"+ entityName +"Dto );\n" +
                     "    }\n" +
                     "\n" +
                     "    @Override\n" +
-                    "    public Mono<"+ entityName +"Dto> update"+ entityName +"("+ entityName +"Dto "+ lowerCaseEntityName +"Dto) {\n" +
+                    "    public Mono<"+ entityName +"Dto> update("+ entityName +"Dto "+ lowerCaseEntityName +"Dto) {\n" +
                     "\n" +
                     "        return "+ lowerCaseEntityName +"Repository.save( "+ mapperFieldName +"."+ lowerCaseEntityName +"DtoTo"+ entityName +"( "+ lowerCaseEntityName +"Dto ))\n" +
                     "                .map( "+ mapperFieldName +"::"+ lowerCaseEntityName +"To"+ entityName +"Dto );\n" +
                     "    }\n" +
                     "\n" +
                     "    @Override\n" +
-                    "    public Mono<Void> delete"+ entityName +"ById(String id) {\n" +
+                    "    public Mono<Void> deleteById(String id) {\n" +
                     "\n" +
                     "        return "+ lowerCaseEntityName +"Repository.deleteById(id);\n" +
                     "\n" +
                     "    }\n" +
                     "\n" +
                     "    @Override\n" +
-                    "    public Mono<"+ entityName +"Dto> get"+ entityName +"ById(String id) {\n" +
+                    "    public Mono<"+ entityName +"Dto> getById(String id) {\n" +
                     "\n" +
                     "        return "+ lowerCaseEntityName +"Repository.findById(id)\n" +
                     "                .map( "+ mapperFieldName +"::"+ lowerCaseEntityName +"To"+ entityName +"Dto );\n" +
                     "    }\n" +
                     "\n" +
                     "    @Override\n" +
-                    "    public Flux<"+ entityName +"Dto> getAll"+ entityName +"s() {\n" +
+                    "    public Flux<"+ entityName +"Dto> getAll() {\n" +
                     "\n" +
                     "        return "+ lowerCaseEntityName +"Repository.findAll()\n" +
                     "                .map( "+ mapperFieldName +"::"+ lowerCaseEntityName +"To"+ entityName +"Dto );\n" +
