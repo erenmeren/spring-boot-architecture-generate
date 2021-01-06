@@ -1,4 +1,6 @@
 ## Requires
+ - Spring Boot WebFlux
+ - Spring Data MongoDB Reactive
  - [Lombok](https://projectlombok.org) - [Dependency](https://mvnrepository.com/artifact/org.projectlombok/lombok)
  - [MapStruct](https://mapstruct.org) - [Dependency](https://mvnrepository.com/artifact/org.mapstruct/mapstruct)
  
